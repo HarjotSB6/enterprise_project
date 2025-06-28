@@ -1,6 +1,6 @@
 variable "env_name" {
   type        = string
-  description = "Environment name (dev, staging, prod)"
+  description = "Environment name"
 }
 
 variable "vpc_cidr" {
@@ -10,11 +10,10 @@ variable "vpc_cidr" {
 
 variable "public_subnet_cidrs" {
   type        = list(string)
-  description = "List of CIDR blocks for public subnets"
+  description = "List of public subnet CIDRs"
 }
 
 variable "availability_zones" {
   type        = list(string)
-  description = "Availability zones to deploy subnets"
+  description = "List of availability zones"
 }
-
