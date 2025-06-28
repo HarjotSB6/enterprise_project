@@ -13,16 +13,6 @@ variable "subnet_ids" {
   description = "Subnet IDs for the EKS cluster"
 }
 
-variable "cluster_role_arn" {
-  type        = string
-  description = "IAM role ARN for EKS cluster"
-}
-
-variable "node_role_arn" {
-  type        = string
-  description = "IAM role ARN for EKS worker nodes"
-}
-
 variable "node_desired_size" {
   type        = number
   default     = 2

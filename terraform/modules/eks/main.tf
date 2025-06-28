@@ -1,46 +1,24 @@
 provider "aws" {
   region = var.aws_region
 }
-
 resource "aws_eks_cluster" "this" {
-  name     = "${var.cluster_name}"
-  role_arn = var.cluster_role_arn
+  name     = var.cluster_name
+  role_arn = aws_iam_role.eks_cluster_role.arn
 
   vpc_config {
     subnet_ids = var.subnet_ids
   }
 
-  depends_on = [aws_iam_role_policy_attachment.cluster_AmazonEKSClusterPolicy]
-}
-
-resource "aws_iam_role" "this" {
-  name = "${var.cluster_name}-eks-cluster-role"
-
-  assume_role_policy = data.aws_iam_policy_document.eks_assume_role.json
-}
-
-data "aws_iam_policy_document" "eks_assume_role" {
-  statement {
-    effect = "Allow"
-
-    principals {
-      type        = "Service"
-      identifiers = ["eks.amazonaws.com"]
-    }
-
-    actions = ["sts:AssumeRole"]
-  }
-}
-
-resource "aws_iam_role_policy_attachment" "cluster_AmazonEKSClusterPolicy" {
-  role       = aws_iam_role.this.name
-  policy_arn = "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy"
+  depends_on = [
+    aws_iam_role_policy_attachment.eks_cluster_policy,
+    aws_iam_role_policy_attachment.eks_vpc_resource_controller,
+  ]
 }
 
 resource "aws_eks_node_group" "this" {
   cluster_name    = aws_eks_cluster.this.name
   node_group_name = "${var.cluster_name}-node-group"
-  node_role_arn   = var.node_role_arn
+  node_role_arn   = aws_iam_role.eks_node_role.arn
   subnet_ids      = var.subnet_ids
 
   scaling_config {

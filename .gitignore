@@ -1,10 +1,12 @@
-.terraform
-.terraform.lock.hcl
+# Ignore all Terraform state & temp files
 *.tfstate
 *.tfstate.backup
+.terraform/
+
+# Ignore tfvars containing secrets
 *.tfvars
-app/terraform/environments/dev/terraform.tfvars
-app/terraform/environments/.terraform 
-terraform/environments/dev/.terraform
-terraform\environments\dev\.terraform
-D:\Project\Ent_project\terraform\environments\dev\.terraform
+*.tfvars.json
+
+# Kubernetes config
+.kube/
+*.yaml~
