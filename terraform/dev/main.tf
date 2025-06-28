@@ -2,7 +2,7 @@ provider "aws" {
   region = var.aws_region
 }
 
-module "aws_foundation" {
+module "foundation" {
   source               = "../../terraform/foundation"
   env_name             = var.env_name
   vpc_cidr             = var.vpc_cidr
