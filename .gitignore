@@ -5,3 +5,4 @@
 *.tfvars
 /app/terraform/environments/dev/terraform.tfvars
 /app/terraform/environments/.terraform 
+/terraform/environments/dev/.terraform
