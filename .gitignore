@@ -1,9 +1,10 @@
-/.terraform
-/.terraform.lock.hcl
+.terraform
+.terraform.lock.hcl
 *.tfstate
 *.tfstate.backup
 *.tfvars
-/app/terraform/environments/dev/terraform.tfvars
-/app/terraform/environments/.terraform 
-/terraform/environments/dev/.terraform
+app/terraform/environments/dev/terraform.tfvars
+app/terraform/environments/.terraform 
 terraform/environments/dev/.terraform
+terraform\environments\dev\.terraform
+D:\Project\Ent_project\terraform\environments\dev\.terraform
