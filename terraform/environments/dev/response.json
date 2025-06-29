@@ -1,0 +1,1 @@
+{"errorMessage": "'Records'", "errorType": "KeyError", "requestId": "d50850b0-24ee-4a20-bf4d-df6b89a69b92", "stackTrace": ["  File \"/var/task/lambda_function.py\", line 6, in lambda_handler\n    s3_event = event['Records'][0]['s3']\n"]}

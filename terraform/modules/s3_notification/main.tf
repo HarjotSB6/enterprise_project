@@ -1,9 +1,5 @@
-resource "aws_sns_topic" "s3_notification_topic" {
-  name = "${var.app_name}-s3-notify-topic"
-}
-
 resource "aws_sns_topic_subscription" "email_subscription" {
-  topic_arn = aws_sns_topic.s3_notification_topic.arn
+  topic_arn = var.sns_topic_arn
   protocol  = "email"
   endpoint  = var.email_address
 }
@@ -14,9 +10,9 @@ resource "aws_iam_role" "lambda_exec_role" {
   assume_role_policy = jsonencode({
     Version = "2012-10-17",
     Statement = [{
-      Effect = "Allow",
+      Effect    = "Allow",
       Principal = { Service = "lambda.amazonaws.com" },
-      Action = "sts:AssumeRole"
+      Action    = "sts:AssumeRole"
     }]
   })
 }
@@ -40,7 +36,7 @@ resource "aws_iam_role_policy" "lambda_policy" {
       {
         Effect = "Allow",
         Action = "sns:Publish",
-        Resource = aws_sns_topic.s3_notification_topic.arn
+        Resource = var.sns_topic_arn
       }
     ]
   })
@@ -57,7 +53,7 @@ resource "aws_lambda_function" "s3_notification_lambda" {
 
   environment {
     variables = {
-      SNS_TOPIC_ARN = aws_sns_topic.s3_notification_topic.arn
+      SNS_TOPIC_ARN = var.sns_topic_arn
     }
   }
 }
@@ -67,7 +63,7 @@ resource "aws_lambda_permission" "allow_s3" {
   action        = "lambda:InvokeFunction"
   function_name = aws_lambda_function.s3_notification_lambda.function_name
   principal     = "s3.amazonaws.com"
-  source_arn = "arn:aws:s3:::${var.s3_bucket_id}"
+  source_arn    = "arn:aws:s3:::${var.s3_bucket_id}"
 }
 
 resource "aws_s3_bucket_notification" "bucket_notification" {

@@ -1,6 +1,7 @@
 provider "aws" {
   region = "us-east-1"
 }
+
 resource "random_id" "bucket_suffix" {
   byte_length = 4
 }
@@ -32,18 +33,31 @@ module "eks" {
 }
 
 module "backend" {
-  source        = "../../modules/backend"
-  app_name      = var.app_name
-  db_name       = "appdb"
-  db_username   = "appadmin"
-  db_password   = "AppPass123!" 
-  subnet_ids    = module.vpc.public_subnet_ids
-  db_sg_id      = module.vpc.default_sg_id
+  source      = "../../modules/backend"
+  app_name    = var.app_name
+  db_name     = "appdb"
+  db_username = "appadmin"
+  db_password = "AppPass123!"
+  subnet_ids  = module.vpc.public_subnet_ids
+  db_sg_id    = module.vpc.default_sg_id
+}
+
+# SNS Topic created here in root module
+resource "aws_sns_topic" "notify" {
+  name = "${var.app_name}-s3-notify-topic"
+}
+
+resource "aws_sns_topic_subscription" "email" {
+  topic_arn = aws_sns_topic.notify.arn
+  protocol  = "email"
+  endpoint  = "harjotsb56@gmail.com"
 }
 
 module "s3_notification" {
-  source       = "../../modules/s3_notification"
-  app_name     = var.app_name
-  s3_bucket_id = module.backend.app_bucket_id
-  email_address = "harjotsb56@gmail.com"
+  source           = "../../modules/s3_notification"
+  app_name         = var.app_name
+  s3_bucket_id     = aws_s3_bucket.app_bucket.id
+  sns_topic_arn    = aws_sns_topic.notify.arn
+  lambda_exec_role = module.backend.lambda_exec_role_name
+  email_address    = "harjotsb56@gmail.com"
 }

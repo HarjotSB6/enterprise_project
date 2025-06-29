@@ -27,3 +27,5 @@ override.tf.json
 *_override.tf.json
 .terraformrc
 terraform.rc
+app/python-k8s-app/.env
+**/.env
