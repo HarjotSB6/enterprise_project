@@ -1,0 +1,31 @@
+<!doctype html>
+<html>
+<head><title>Output Tab</title></head>
+<body>
+  <h1>Stored Data</h1>
+
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      <ul>
+      {% for category, message in messages %}
+        <li style="color: {{ 'red' if category == 'error' else 'green' }}">{{ message }}</li>
+      {% endfor %}
+      </ul>
+    {% endif %}
+  {% endwith %}
+
+  <ul>
+    {% for id, data in rows %}
+      <li>{{ id }} - {{ data }}</li>
+    {% endfor %}
+  </ul>
+
+  <h2>Upload file to S3</h2>
+  <form method="POST" enctype="multipart/form-data">
+    <input type="file" name="file" required>
+    <button type="submit">Upload</button>
+  </form>
+
+  <p><a href="{{ url_for('input_tab') }}">Go to Input Tab</a></p>
+</body>
+</html>

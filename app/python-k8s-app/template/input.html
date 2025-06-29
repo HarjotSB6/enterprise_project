@@ -1,0 +1,24 @@
+<!doctype html>
+<html>
+<head><title>Input Tab</title></head>
+<body>
+  <h1>Input Data</h1>
+
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      <ul>
+      {% for category, message in messages %}
+        <li style="color: {{ 'red' if category == 'error' else 'green' }}">{{ message }}</li>
+      {% endfor %}
+      </ul>
+    {% endif %}
+  {% endwith %}
+
+  <form method="POST">
+    <input type="text" name="user_input" placeholder="Enter data here" required>
+    <button type="submit">Submit</button>
+  </form>
+
+  <p><a href="{{ url_for('output_tab') }}">Go to Output Tab</a></p>
+</body>
+</html>
