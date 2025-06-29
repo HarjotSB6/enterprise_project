@@ -58,6 +58,6 @@ module "s3_notification" {
   app_name         = var.app_name
   s3_bucket_id     = aws_s3_bucket.app_bucket.id
   sns_topic_arn    = aws_sns_topic.notify.arn
-  lambda_exec_role = module.backend.lambda_exec_role_name
+  lambda_exec_role = module.backend.lambda_exec_role_arn
   email_address    = "harjotsb56@gmail.com"
 }
