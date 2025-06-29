@@ -9,3 +9,8 @@ output "bucket_name" {
 output "lambda_exec_role_arn" {
   value = aws_iam_role.lambda_exec_role.arn
 }
+
+output "app_bucket_id" {
+  value = aws_s3_bucket.app_bucket.id
+  description = "The ID of the S3 bucket"
+}

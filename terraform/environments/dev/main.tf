@@ -40,3 +40,10 @@ module "backend" {
   subnet_ids    = module.vpc.public_subnet_ids
   db_sg_id      = module.vpc.default_sg_id
 }
+
+module "s3_notification" {
+  source       = "../../modules/s3_notification"
+  app_name     = var.app_name
+  s3_bucket_id = module.backend.app_bucket_id
+  email_address = "harjotsb56@gmail.com"
+}
