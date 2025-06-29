@@ -17,3 +17,6 @@ variable "public_subnet_cidrs" {
 variable "availability_zones" {
   default = ["us-east-1a", "us-east-1b"]
 }
+variable "app_name" {
+  default = "myapp"
+}

@@ -2,6 +2,16 @@ provider "aws" {
   region = var.aws_region
 }
 
+provider "aws" {
+  alias  = "use1"
+  region = "us-east-1"
+}
+
+resource "aws_s3_bucket" "app_bucket" {
+  bucket = "${var.app_name}-upload-bucket"
+  force_destroy = true
+}
+
 module "vpc" {
   source = "../../modules/vpc"
 
@@ -21,4 +31,17 @@ module "eks" {
   node_max_size       = 1
   node_min_size       = 1
   node_instance_types = ["t2.micro"]
+}
+
+module "backend" {
+  source        = "../../modules/backend"
+  providers = {
+    aws = aws.use1
+  }
+  app_name      = var.app_name
+  db_name       = "appdb"
+  db_username   = "admin"
+  db_password   = "AppPass123!"  # Store this in Secrets Manager in production
+  subnet_ids    = module.vpc.public_subnet_ids
+  db_sg_id      = module.vpc.default_sg_id
 }
