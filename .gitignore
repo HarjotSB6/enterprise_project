@@ -9,4 +9,7 @@
 
 # Kubernetes config
 .kube/
-*.yaml~
+*.yaml~.terraform/
+*.tfstate
+*.tfstate.*
+.terraform.lock.hcl
