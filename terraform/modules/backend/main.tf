@@ -2,7 +2,7 @@ resource "aws_db_instance" "app_db" {
   identifier         = "${var.app_name}-db"
   allocated_storage  = 20
   engine             = "postgres"
-  engine_version     = "15.4"
+  engine_version     = "15.13"
   instance_class     = "db.t3.micro" # Use free-tier eligible class
   username           = var.db_username
   password           = var.db_password
