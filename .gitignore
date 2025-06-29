@@ -3,18 +3,16 @@
 *.tfstate.backup
 .terraform/
 
-# Ignore tfvars containing secrets
 *.tfvars
 *.tfvars.json
+*.env
 
-# Kubernetes config
 .kube/
 *.yaml~.terraform/
 *.tfstate
 *.tfstate.*
 .terraform.lock.hcl
 
-# Terraform
 **/.terraform/*
 **/.terraform.lock.hcl
 *.tfstate
