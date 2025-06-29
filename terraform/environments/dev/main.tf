@@ -1,14 +1,12 @@
 provider "aws" {
-  region = var.aws_region
-}
-
-provider "aws" {
-  alias  = "use1"
   region = "us-east-1"
+}
+resource "random_id" "bucket_suffix" {
+  byte_length = 4
 }
 
 resource "aws_s3_bucket" "app_bucket" {
-  bucket = "${var.app_name}-upload-bucket"
+  bucket        = "${var.app_name}-upload-bucket-${random_id.bucket_suffix.hex}"
   force_destroy = true
 }
 
@@ -35,13 +33,10 @@ module "eks" {
 
 module "backend" {
   source        = "../../modules/backend"
-  providers = {
-    aws = aws.use1
-  }
   app_name      = var.app_name
   db_name       = "appdb"
-  db_username   = "admin"
-  db_password   = "AppPass123!"  # Store this in Secrets Manager in production
+  db_username   = "appadmin"
+  db_password   = "AppPass123!" 
   subnet_ids    = module.vpc.public_subnet_ids
   db_sg_id      = module.vpc.default_sg_id
 }
