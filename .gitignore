@@ -5,7 +5,7 @@
 
 *.tfvars
 *.tfvars.json
-*.env
+app\python-k8s-app\.env
 
 .kube/
 *.yaml~.terraform/
