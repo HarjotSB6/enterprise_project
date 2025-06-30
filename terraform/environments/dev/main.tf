@@ -26,10 +26,10 @@ module "eks" {
   cluster_name     = "${var.env_name}-eks-cluster"
   subnet_ids       = module.vpc.public_subnet_ids
 
-  node_desired_size   = 1
-  node_max_size       = 1
+  node_desired_size   = 2
+  node_max_size       = 3
   node_min_size       = 1
-  node_instance_types = ["t2.micro"]
+  node_instance_types = ["t3.small"]
 }
 
 module "backend" {
